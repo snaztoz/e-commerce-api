@@ -28,6 +28,7 @@ const routes = () => {
   // users
   Route.group(() => {
     Route.post('/signup', 'UsersController.signup')
+    Route.post('/login', 'UsersController.login')
   }).prefix('/users')
 }
 

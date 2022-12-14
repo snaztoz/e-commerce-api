@@ -27,4 +27,28 @@ export default class UsersController {
     response.created()
     return token
   }
+
+  public async login({ auth, request, response }: HttpContextContract) {
+    const loginSchema = schema.create({
+      uid: schema.string(),
+      password: schema.string(),
+    })
+
+    let payload
+    try {
+      payload = await request.validate({
+        schema: loginSchema,
+      })
+    } catch (err) {
+      response.badRequest(err)
+      return
+    }
+
+    try {
+      const token = await auth.use('api').attempt(payload.uid, payload.password)
+      return token
+    } catch {
+      return response.unauthorized('Invalid credentials')
+    }
+  }
 }
