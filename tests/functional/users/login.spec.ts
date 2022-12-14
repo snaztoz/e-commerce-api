@@ -8,7 +8,6 @@ test.group('Users login', () => {
     })
 
     response.assertStatus(200)
-    console.log(response.body())
   })
 
   test('user login with invalid credential', async ({ client }) => {
