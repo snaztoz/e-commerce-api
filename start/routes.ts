@@ -21,10 +21,6 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 const routes = () => {
-  Route.get('/', async () => {
-    return { hello: 'world' }
-  })
-
   // users
   Route.group(() => {
     Route.post('/signup', 'UsersController.signup')
