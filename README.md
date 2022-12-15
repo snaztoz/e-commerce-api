@@ -24,7 +24,13 @@
     node ace migration:run
     ```
 
-5. Jalankan project
+5. Jalankan seeder
+
+    ```bash
+    node ace db:seed
+    ```
+
+6. Jalankan project
 
     ```bash
     yarn dev
