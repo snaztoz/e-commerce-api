@@ -13,8 +13,8 @@ export default class Order extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @column()
-  public paymentDate: Date
+  @column.dateTime()
+  public paymentDate: DateTime
 
   @column()
   public userId: number
