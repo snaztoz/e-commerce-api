@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
+
+import Order from 'App/Models/Order'
 
 export default class SubscriptionPlan extends BaseModel {
   @column({ isPrimary: true })
@@ -10,6 +12,9 @@ export default class SubscriptionPlan extends BaseModel {
 
   @column()
   public price: number
+
+  @hasMany(() => Order)
+  public orders: HasMany<typeof Order>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
