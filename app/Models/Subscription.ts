@@ -1,11 +1,11 @@
-import { BaseModel, BelongsTo, HasOne, belongsTo, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 
-import Subscription from 'App/Models/Subscription'
+import Order from 'App/Models/Order'
 import SubscriptionPlan from 'App/Models/SubscriptionPlan'
 import User from 'App/Models/User'
 
-export default class Order extends BaseModel {
+export default class Subscription extends BaseModel {
   /**
    * Columns
    */
@@ -14,13 +14,13 @@ export default class Order extends BaseModel {
   public id: number
 
   @column()
-  public paymentDate: Date
-
-  @column()
   public userId: number
 
   @column()
   public subscriptionPlanId: number
+
+  @column()
+  public orderId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -32,12 +32,12 @@ export default class Order extends BaseModel {
    * Relationships
    */
 
-  @hasOne(() => Subscription)
-  public subscription: HasOne<typeof Subscription>
-
   @belongsTo(() => User)
-  public user: BelongsTo<typeof User>
+  public subscriber: BelongsTo<typeof User>
 
   @belongsTo(() => SubscriptionPlan)
   public plan: BelongsTo<typeof SubscriptionPlan>
+
+  @belongsTo(() => Order)
+  public order: BelongsTo<typeof Order>
 }
