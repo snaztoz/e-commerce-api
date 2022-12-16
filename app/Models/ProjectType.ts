@@ -1,5 +1,7 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
+
+import Project from 'App/Models/Project'
 
 export default class ProjectType extends BaseModel {
   /**
@@ -17,4 +19,11 @@ export default class ProjectType extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  /**
+   * Relationships
+   */
+
+  @hasMany(() => Project)
+  public projects: HasMany<typeof Project>
 }

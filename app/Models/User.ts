@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, HasMany, afterCreate, beforeSave, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 
 import Order from 'App/Models/Order'
+import Project from 'App/Models/Project'
 import Subscription from 'App/Models/Subscription'
 import SubscriptionPlan from 'App/Models/SubscriptionPlan'
 
@@ -41,6 +42,9 @@ export default class User extends BaseModel {
 
   @hasMany(() => Subscription)
   public subscriptions: HasMany<typeof Subscription>
+
+  @hasMany(() => Project)
+  public projects: HasMany<typeof Project>
 
   /**
    * Hooks
