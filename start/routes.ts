@@ -25,6 +25,7 @@ const routes = () => {
   Route.group(() => {
     Route.post('/signup', 'UsersController.signup')
     Route.post('/login', 'UsersController.login')
+    Route.get('/profile', 'UsersController.profile').middleware('auth')
   }).prefix('/users')
 }
 

@@ -51,4 +51,8 @@ export default class UsersController {
       return response.unauthorized('Invalid credentials')
     }
   }
+
+  public async profile({ auth }: HttpContextContract) {
+    return auth.use('api').user!.serialize()
+  }
 }
