@@ -36,6 +36,17 @@
     yarn dev
     ```
 
+## Development
+
+* Jika seeder sudah dijalankan sebelumnya, maka di database sudah ada 1 default user yang dapat digunakan untuk melakukan proses development, yakni:
+    ```json
+    {
+        "username": "alice",
+        "email": "alice@email.com",
+        "password": "password"
+    }
+    ```
+
 ## Testing
 
 1. Buat database baru yang diberi nama `e_commerce_testing`
