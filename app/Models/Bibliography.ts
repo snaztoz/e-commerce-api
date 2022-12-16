@@ -1,5 +1,7 @@
+import { BaseModel, HasMany, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+
+import Phrase from 'App/Models/Phrase'
 
 export default class Bibliography extends BaseModel {
   /**
@@ -26,4 +28,11 @@ export default class Bibliography extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  /**
+   * Relationships
+   */
+
+  @hasMany(() => Phrase)
+  public phrases: HasMany<typeof Phrase>
 }
