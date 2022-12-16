@@ -1,7 +1,15 @@
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  BelongsTo,
+  ManyToMany,
+  belongsTo,
+  column,
+  manyToMany,
+} from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
 import Bibliography from 'App/Models/Bibliography'
+import ProjectContent from './ProjectContent'
 
 export default class Phrase extends BaseModel {
   /**
@@ -29,4 +37,10 @@ export default class Phrase extends BaseModel {
 
   @belongsTo(() => Bibliography)
   public source: BelongsTo<typeof Bibliography>
+
+  @manyToMany(() => ProjectContent, {
+    pivotTable: 'citations',
+    pivotTimestamps: true,
+  })
+  public citations: ManyToMany<typeof ProjectContent>
 }
