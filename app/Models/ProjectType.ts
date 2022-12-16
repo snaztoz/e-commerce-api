@@ -2,6 +2,7 @@ import { BaseModel, HasMany, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
 import Project from 'App/Models/Project'
+import ProjectPart from 'App/Models/ProjectPart'
 
 export default class ProjectType extends BaseModel {
   /**
@@ -26,4 +27,7 @@ export default class ProjectType extends BaseModel {
 
   @hasMany(() => Project)
   public projects: HasMany<typeof Project>
+
+  @hasMany(() => ProjectPart)
+  public parts: HasMany<typeof ProjectPart>
 }
