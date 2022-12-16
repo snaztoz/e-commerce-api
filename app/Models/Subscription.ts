@@ -20,7 +20,7 @@ export default class Subscription extends BaseModel {
   public subscriptionPlanId: number
 
   @column()
-  public orderId: number
+  public orderId: number | null
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
