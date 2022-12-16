@@ -56,3 +56,7 @@
     ```bash
     node ace test
     ```
+
+## Examples
+
+Contoh penggunaan API dapat dilihat di dalam folder `/examples/`
