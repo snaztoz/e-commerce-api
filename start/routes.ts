@@ -21,6 +21,18 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 const routes = () => {
+  // projects
+  Route.group(() => {
+    Route.get('/types', 'ProjectsController.types')
+
+    Route.group(() => {
+      Route.get('/', 'ProjectsController.index')
+      Route.post('/', 'ProjectsController.store')
+      Route.get('/:id', 'ProjectsController.show')
+      Route.delete('/:id', 'ProjectsController.destroy')
+    }).middleware('auth')
+  }).prefix('/projects')
+
   // users
   Route.group(() => {
     Route.post('/signup', 'UsersController.signup')
