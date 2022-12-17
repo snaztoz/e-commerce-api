@@ -17,6 +17,9 @@ test.group('Users profile', () => {
     profileResponse.assertBodyContains({
       username: 'alice',
       email: 'alice@email.com',
+      activeSubscription: {
+        plan: 'free',
+      },
     })
   })
 
