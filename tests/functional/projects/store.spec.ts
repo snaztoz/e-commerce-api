@@ -11,6 +11,7 @@ test.group('Projects store', () => {
     const response = await client
       .post('/api/projects')
       .json({
+        name: 'Membuat Website dengan AdonisJS',
         projectTypeId: skripsi.id,
       })
       .loginAs(user)

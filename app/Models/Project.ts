@@ -14,6 +14,9 @@ export default class Project extends BaseModel {
   public id: number
 
   @column()
+  public name: string
+
+  @column()
   public userId: number
 
   @column()
