@@ -13,6 +13,9 @@ export default class Subscription extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column.dateTime()
+  public endDate: DateTime
+
   @column()
   public userId: number
 
