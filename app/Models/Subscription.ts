@@ -32,6 +32,21 @@ export default class Subscription extends BaseModel {
   public updatedAt: DateTime
 
   /**
+   * Custom
+   */
+
+  private planName?: string
+
+  public async getPlanName(): Promise<string> {
+    if (!this.planName) {
+      const subscription: Subscription = this
+      const plan = await subscription.related('plan').query().firstOrFail()
+      this.planName = plan.name
+    }
+    return this.planName!
+  }
+
+  /**
    * Relationships
    */
 
