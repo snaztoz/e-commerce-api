@@ -53,6 +53,16 @@ export default class UsersController {
   }
 
   public async profile({ auth }: HttpContextContract) {
-    return auth.use('api').user!.serialize()
+    const user = auth.use('api').user!
+    const subscription = await user.getActiveSubscription()
+    const planName = await subscription.getPlanName()
+
+    return {
+      ...user.serialize(),
+      activeSubscription: {
+        endDate: subscription.endDate,
+        plan: planName,
+      },
+    }
   }
 }
