@@ -1,8 +1,8 @@
 import { BaseModel, BelongsTo, HasMany, belongsTo, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
-import ProjectType from 'App/Models/ProjectType'
 import ProjectContent from 'App/Models/ProjectContent'
+import ProjectType from 'App/Models/ProjectType'
 import User from 'App/Models/User'
 
 export default class Project extends BaseModel {
