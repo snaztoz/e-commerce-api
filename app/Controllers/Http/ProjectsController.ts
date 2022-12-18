@@ -6,16 +6,22 @@ import ProjectType from 'App/Models/ProjectType'
 export default class ProjectsController {
   public async index({ auth }: HttpContextContract) {
     const user = auth.use('api').user!
-    const projects = await user.related('projects').query()
+    const projects = await user.related('projects').query().preload('projectType')
+    const serializedProjects = projects.map((p) =>
+      p.serialize({
+        fields: {
+          pick: ['id', 'name', 'createdAt', 'updatedAt'],
+        },
+        relations: {
+          projectType: {
+            fields: ['id', 'name'],
+          },
+        },
+      })
+    )
 
     return {
-      projects: projects.map((p) =>
-        p.serialize({
-          fields: {
-            pick: ['id', 'name', 'createdAt', 'updatedAt'],
-          },
-        })
-      ),
+      projects: serializedProjects,
     }
   }
 
