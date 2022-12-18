@@ -33,6 +33,11 @@ const routes = () => {
     }).middleware('auth')
   }).prefix('/projects')
 
+  // subscriptions
+  Route.group(() => {
+    Route.get('/available-plans', 'SubscriptionsController.availablePlans')
+  }).prefix('/subscriptions')
+
   // users
   Route.group(() => {
     Route.post('/signup', 'UsersController.signup')

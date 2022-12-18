@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasMany, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, column, computed, hasMany } from '@ioc:Adonis/Lucid/Orm'
 
 import Order from 'App/Models/Order'
 import Subscription from 'App/Models/Subscription'
@@ -23,6 +23,16 @@ export default class SubscriptionPlan extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  /**
+   * Computed values
+   */
+
+  @computed()
+  public get pricing() {
+    const priceInInteger = Math.trunc(this.price)
+    return priceInInteger === this.price ? priceInInteger : this.price
+  }
 
   /**
    * Relationships
