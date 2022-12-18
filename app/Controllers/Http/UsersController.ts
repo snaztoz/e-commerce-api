@@ -52,6 +52,14 @@ export default class UsersController {
     }
   }
 
+  public async logout({ auth }: HttpContextContract) {
+    await auth.use('api').revoke()
+
+    return {
+      revoked: true,
+    }
+  }
+
   public async profile({ auth }: HttpContextContract) {
     const user = auth.use('api').user!
     const subscription = await user.getActiveSubscription()
