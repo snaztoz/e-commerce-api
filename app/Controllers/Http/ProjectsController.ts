@@ -1,6 +1,7 @@
 import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
+import Project from 'App/Models/Project'
 import ProjectType from 'App/Models/ProjectType'
 
 export default class ProjectsController {
@@ -48,8 +49,20 @@ export default class ProjectsController {
     return response.notImplemented()
   }
 
-  public async destroy({ response }: HttpContextContract) {
-    return response.notImplemented()
+  public async destroy({ auth, params, response }: HttpContextContract) {
+    const user = auth.use('api').user!
+    const projectId: number = params.id
+
+    const project = await Project.findOrFail(projectId)
+    if (project.userId !== user.id) {
+      return response.forbidden()
+    }
+
+    await project.delete()
+
+    return {
+      deleted: Number(projectId),
+    }
   }
 
   public async types({}: HttpContextContract) {
