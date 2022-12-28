@@ -64,6 +64,6 @@ test.group('Project show', (group) => {
   test('get project by unauthenticated user', async ({ client }) => {
     const response = await client.get(`/api/projects/${project.id}`)
 
-    response.assertStatus(403)
+    response.assertStatus(401)
   })
 })
