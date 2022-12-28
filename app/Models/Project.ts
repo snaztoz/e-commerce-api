@@ -1,4 +1,12 @@
-import { BaseModel, BelongsTo, HasMany, belongsTo, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  BelongsTo,
+  HasMany,
+  afterCreate,
+  belongsTo,
+  column,
+  hasMany,
+} from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
 import ProjectContent from 'App/Models/ProjectContent'
@@ -40,4 +48,21 @@ export default class Project extends BaseModel {
 
   @hasMany(() => ProjectContent)
   public contents: HasMany<typeof ProjectContent>
+
+  /**
+   * Hooks
+   */
+
+  @afterCreate()
+  public static async populateWithEmptyContents(project: Project) {
+    const projectType = await project.related('projectType').query().preload('parts').firstOrFail()
+    const { parts } = projectType
+
+    await project.related('contents').createMany(
+      parts.map((p) => ({
+        content: '',
+        projectPartId: p.id,
+      }))
+    )
+  }
 }
