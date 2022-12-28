@@ -1,4 +1,5 @@
 import { BasePolicy } from '@ioc:Adonis/Addons/Bouncer'
+
 import User from 'App/Models/User'
 import Project from 'App/Models/Project'
 
