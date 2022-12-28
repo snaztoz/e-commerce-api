@@ -1,4 +1,4 @@
-import { BaseModel, BelongsTo, HasOne, belongsTo, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, HasMany, belongsTo, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
 import ProjectContent from 'App/Models/ProjectContent'
@@ -34,6 +34,6 @@ export default class ProjectPart extends BaseModel {
   @belongsTo(() => ProjectType)
   public projectType: BelongsTo<typeof ProjectType>
 
-  @hasOne(() => ProjectContent)
-  public content: HasOne<typeof ProjectContent>
+  @hasMany(() => ProjectContent)
+  public contents: HasMany<typeof ProjectContent>
 }
