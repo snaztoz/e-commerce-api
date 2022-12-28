@@ -1,5 +1,6 @@
 import { bind } from '@adonisjs/route-model-binding'
-import { rules, schema } from '@ioc:Adonis/Core/Validator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import { string as str } from '@ioc:Adonis/Core/Helpers'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Project from 'App/Models/Project'
@@ -68,10 +69,7 @@ export default class ProjectsController {
 
           return {
             ...part.serialize({ fields: { pick: ['id', 'name'] } }),
-            content: {
-              id: content.id,
-              value: content.content,
-            },
+            contentExcerpt: str.excerpt(content.content, 110),
           }
         })
       ),
