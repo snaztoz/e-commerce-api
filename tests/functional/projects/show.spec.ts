@@ -30,7 +30,7 @@ test.group('Project show', (group) => {
   })
 
   test('get project by authenticated user', async ({ client }) => {
-    const response = await client.get(`/api/v1/projects/${project.id}`).loginAs(alice)
+    const response = await client.get(`/api/projects/${project.id}`).loginAs(alice)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -62,7 +62,7 @@ test.group('Project show', (group) => {
   })
 
   test('get project by unauthenticated user', async ({ client }) => {
-    const response = await client.get(`/api/v1/projects/${project.id}`)
+    const response = await client.get(`/api/projects/${project.id}`)
 
     response.assertStatus(403)
   })
