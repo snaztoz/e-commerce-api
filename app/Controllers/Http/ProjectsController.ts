@@ -46,8 +46,36 @@ export default class ProjectsController {
     return response.created()
   }
 
-  public async show({ response }: HttpContextContract) {
-    return response.notImplemented()
+  @bind()
+  public async show({ bouncer }: HttpContextContract, project: Project) {
+    await bouncer.with('ProjectsPolicy').authorize('view', project)
+
+    const projectType = await project.related('projectType').query().firstOrFail()
+    const projectParts = await projectType.related('parts').query()
+
+    return {
+      ...project.serialize({ fields: { pick: ['id', 'name'] } }),
+      projectType: {
+        ...projectType.serialize({ fields: { pick: ['id', 'name'] } }),
+      },
+      projectParts: await Promise.all(
+        projectParts.map(async (part) => {
+          const content = await part
+            .related('contents')
+            .query()
+            .where('projectId', `${project.id}`)
+            .firstOrFail()
+
+          return {
+            ...part.serialize({ fields: { pick: ['id', 'name'] } }),
+            content: {
+              id: content.id,
+              value: content.content,
+            },
+          }
+        })
+      ),
+    }
   }
 
   @bind()
