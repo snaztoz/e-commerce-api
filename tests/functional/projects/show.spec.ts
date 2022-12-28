@@ -1,4 +1,5 @@
 import Database from '@ioc:Adonis/Lucid/Database'
+import { string as str } from '@ioc:Adonis/Core/Helpers'
 import { test } from '@japa/runner'
 
 import Project from 'App/Models/Project'
@@ -51,10 +52,7 @@ test.group('Project show', (group) => {
           return {
             id: p.id,
             name: p.name,
-            content: {
-              id: content.id,
-              value: content.content,
-            },
+            contentExcerpt: str.excerpt(content.content, 110),
           }
         })
       ),
