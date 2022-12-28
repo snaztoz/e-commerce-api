@@ -51,18 +51,13 @@ export default class ProjectsController {
   }
 
   @bind()
-  public async destroy({ auth, response }: HttpContextContract, project: Project) {
-    const user = auth.use('api').user!
-    const projectId = project.id
-
-    if (project.userId !== user.id) {
-      return response.forbidden()
-    }
+  public async destroy({ bouncer }: HttpContextContract, project: Project) {
+    await bouncer.with('ProjectsPolicy').authorize('delete', project)
 
     await project.delete()
 
     return {
-      deleted: Number(projectId),
+      deleted: Number(project.id),
     }
   }
 
