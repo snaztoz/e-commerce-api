@@ -1,3 +1,4 @@
+import { bind } from '@adonisjs/route-model-binding'
 import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
@@ -49,11 +50,11 @@ export default class ProjectsController {
     return response.notImplemented()
   }
 
-  public async destroy({ auth, params, response }: HttpContextContract) {
+  @bind()
+  public async destroy({ auth, response }: HttpContextContract, project: Project) {
     const user = auth.use('api').user!
-    const projectId: number = params.id
+    const projectId = project.id
 
-    const project = await Project.findOrFail(projectId)
     if (project.userId !== user.id) {
       return response.forbidden()
     }
