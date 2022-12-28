@@ -9,5 +9,6 @@ export default class extends BaseSeeder {
     await this.runSeeder(await import('../SubscriptionPlan'))
     await this.runSeeder(await import('../User'))
     await this.runSeeder(await import('../ProjectType'))
+    await this.runSeeder(await import('../ProjectPart'))
   }
 }
