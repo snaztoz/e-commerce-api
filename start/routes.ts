@@ -23,15 +23,13 @@ import Route from '@ioc:Adonis/Core/Route'
 const routes = () => {
   // projects
   Route.group(() => {
-    Route.get('/types', 'ProjectsController.types')
+    Route.get('/projects/types', 'ProjectsController.types')
 
-    Route.group(() => {
-      Route.get('/', 'ProjectsController.index')
-      Route.post('/', 'ProjectsController.store')
-      Route.get('/:id', 'ProjectsController.show')
-      Route.delete('/:id', 'ProjectsController.destroy')
-    }).middleware('auth')
-  }).prefix('/projects')
+    Route.resource('projects', 'ProjectsController')
+      .apiOnly()
+      .except(['update'])
+      .middleware({ '*': ['auth'] })
+  })
 
   // subscriptions
   Route.group(() => {
