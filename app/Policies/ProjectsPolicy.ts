@@ -8,6 +8,10 @@ export default class ProjectsPolicy extends BasePolicy {
     return user.id === project.userId
   }
 
+  public async update(user: User, project: Project) {
+    return user.id === project.userId
+  }
+
   public async delete(user: User, project: Project) {
     return user.id === project.userId
   }

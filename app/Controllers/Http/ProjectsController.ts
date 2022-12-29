@@ -4,6 +4,7 @@ import { string as str } from '@ioc:Adonis/Core/Helpers'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Project from 'App/Models/Project'
+import ProjectPart from 'App/Models/ProjectPart'
 import ProjectType from 'App/Models/ProjectType'
 
 export default class ProjectsController {
@@ -98,5 +99,51 @@ export default class ProjectsController {
         })
       ),
     }
+  }
+
+  @bind()
+  public async showContent({ bouncer }: HttpContextContract, project: Project, part: ProjectPart) {
+    await bouncer.with('ProjectsPolicy').authorize('view', project)
+
+    const content = await project
+      .related('contents')
+      .query()
+      .where('projectPartId', `${part.id}`)
+      .firstOrFail()
+
+    return content.serialize({
+      fields: {
+        pick: ['id', 'content'],
+      },
+    })
+  }
+
+  @bind()
+  public async updateContent(
+    { bouncer, request, response }: HttpContextContract,
+    project: Project,
+    part: ProjectPart
+  ) {
+    await bouncer.with('ProjectsPolicy').authorize('update', project)
+
+    const updateContentSchema = schema.create({
+      content: schema.string(),
+    })
+
+    let payload
+    try {
+      payload = await request.validate({ schema: updateContentSchema })
+    } catch (err) {
+      return response.badRequest(err)
+    }
+
+    const content = await project
+      .related('contents')
+      .query()
+      .where('projectPartId', `${part.id}`)
+      .firstOrFail()
+
+    content.content = payload.content
+    await content.save()
   }
 }
