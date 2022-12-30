@@ -12,7 +12,7 @@ test.group('Subscription orders', (group) => {
 
   group.setup(async () => {
     alice = await UsersService.getUser('alice')
-    personalPlan = await SubscriptionsService.getPlan('personal')
+    personalPlan = await SubscriptionsService.getPlanByKind('personal')
   })
 
   group.each.setup(async () => {
