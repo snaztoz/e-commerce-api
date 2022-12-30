@@ -1,4 +1,6 @@
-import Order from 'App/Models/Order'
+import MidtransService, {
+  TransactionResponse as MidtransTransactionResponse,
+} from './MidtransService'
 import SubscriptionPlan from 'App/Models/SubscriptionPlan'
 import User from 'App/Models/User'
 
@@ -11,11 +13,14 @@ export default class SubscriptionsService {
     return SubscriptionPlan.findByOrFail('name', kind)
   }
 
-  public static async makeOrder(user: User, plan: SubscriptionPlan): Promise<Order> {
+  public static async makeOrder(
+    user: User,
+    plan: SubscriptionPlan
+  ): Promise<MidtransTransactionResponse> {
     const order = await user.related('orders').create({
       subscriptionPlanId: plan.id,
     })
 
-    return order
+    return MidtransService.newOrder(order.id, plan.price)
   }
 }

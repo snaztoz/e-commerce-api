@@ -40,9 +40,8 @@ export default class SubscriptionsController {
     }
 
     const plan = await SubscriptionsService.getPlan(payload.planId)
-    const order = await SubscriptionsService.makeOrder(user, plan)
+    const payment = await SubscriptionsService.makeOrder(user, plan)
 
-    response.created()
-    return { id: order.id }
+    return response.created(payment)
   }
 }
