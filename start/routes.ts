@@ -42,6 +42,7 @@ const routes = () => {
   // subscriptions
   Route.group(() => {
     Route.get('/available-plans', 'SubscriptionsController.availablePlans')
+    Route.post('/orders', 'SubscriptionsController.makeOrder').middleware('auth')
   }).prefix('/subscriptions')
 
   // users
