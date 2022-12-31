@@ -21,9 +21,15 @@ export default class SubscriptionsService {
   ): Promise<MidtransTransactionResponse> {
     const order = await user.related('orders').create({
       subscriptionPlanId: plan.id,
-      // TODO: should be set based on Midtrans notification instead
-      paymentDate: DateTime.now(),
     })
+
+    // TODO:  Should be set based on Midtrans notification instead.
+    //
+    // We set paymentDate in a separate statement in order to make
+    // the beforeSave hook can retrieve order's id as it is already
+    // saved in the database.
+    order.paymentDate = DateTime.now()
+    await order.save()
 
     return MidtransService.newOrder(order.id, plan.price)
   }

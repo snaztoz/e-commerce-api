@@ -31,6 +31,9 @@ test.group('Subscription orders making', (group) => {
     response.assertStatus(201)
     assert.exists(response.body().token)
     assert.exists(response.body().redirect_url)
+
+    const activeSubscription = await alice.getActiveSubscription()
+    assert.equal(activeSubscription.subscriptionPlanId, personalPlan.id)
   })
 
   test('unauthenticated user make subscription order', async ({ client }) => {

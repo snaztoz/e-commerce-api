@@ -1,4 +1,12 @@
-import { BaseModel, BelongsTo, HasOne, belongsTo, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  BelongsTo,
+  HasOne,
+  beforeSave,
+  belongsTo,
+  column,
+  hasOne,
+} from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
 import Subscription from 'App/Models/Subscription'
@@ -14,7 +22,7 @@ export default class Order extends BaseModel {
   public id: number
 
   @column.dateTime()
-  public paymentDate: DateTime
+  public paymentDate?: DateTime
 
   @column()
   public userId: number
@@ -40,4 +48,20 @@ export default class Order extends BaseModel {
 
   @belongsTo(() => SubscriptionPlan)
   public plan: BelongsTo<typeof SubscriptionPlan>
+
+  /**
+   * Hooks
+   */
+
+  @beforeSave()
+  public static async newSubscription(order: Order) {
+    if (order.$dirty.paymentDate) {
+      await Subscription.create({
+        userId: order.userId,
+        subscriptionPlanId: order.subscriptionPlanId,
+        orderId: order.id,
+        endDate: order.paymentDate!.plus({ month: 1 }),
+      })
+    }
+  }
 }
