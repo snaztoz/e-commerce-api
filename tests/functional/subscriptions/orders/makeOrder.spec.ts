@@ -6,7 +6,7 @@ import SubscriptionsService from 'App/Services/SubscriptionsService'
 import User from 'App/Models/User'
 import UsersService from 'App/Services/UsersService'
 
-test.group('Subscription orders', (group) => {
+test.group('Subscription orders making', (group) => {
   let alice: User
   let personalPlan: SubscriptionPlan
 
