@@ -1,8 +1,11 @@
 import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
+import MidtransService from 'App/Services/MidtransService'
 import SubscriptionPlan from 'App/Models/SubscriptionPlan'
 import SubscriptionsService from 'App/Services/SubscriptionsService'
+import Order from 'App/Models/Order'
+import { DateTime } from 'luxon'
 
 export default class SubscriptionsController {
   public async availablePlans({}: HttpContextContract) {
@@ -43,5 +46,22 @@ export default class SubscriptionsController {
     const payment = await SubscriptionsService.makeOrder(user, plan)
 
     return response.created(payment)
+  }
+
+  public async midtransPaymentNotification({ request, response }: HttpContextContract) {
+    let orderId: number
+    let paymentDate: DateTime
+
+    try {
+      const midtransData = await MidtransService.handleNotification(request.body())
+      orderId = midtransData.orderId
+      paymentDate = midtransData.paymentDate
+    } catch (err) {
+      return response.badRequest(err)
+    }
+
+    const order = await Order.findOrFail(orderId)
+    order.paymentDate = paymentDate
+    order.save()
   }
 }
