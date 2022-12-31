@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon'
+
 import MidtransService, {
   TransactionResponse as MidtransTransactionResponse,
 } from './MidtransService'
@@ -19,6 +21,8 @@ export default class SubscriptionsService {
   ): Promise<MidtransTransactionResponse> {
     const order = await user.related('orders').create({
       subscriptionPlanId: plan.id,
+      // TODO: should be set based on Midtrans notification instead
+      paymentDate: DateTime.now(),
     })
 
     return MidtransService.newOrder(order.id, plan.price)
